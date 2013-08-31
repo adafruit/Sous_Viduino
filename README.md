@@ -41,7 +41,7 @@ Pressing the LEFT and RIGHT buttons simultaneously will reset the the previously
 When setting the display units, use the UP and DOWN buttons to switch between Celsius and Fahrenheit.
 Use the RIGHT button to save the current selection as the units.
 
-The Run mode will cycle between the current temperature, the setpoint, and the duty cycle percentage.
+The Run mode will cycle between displaying the current temperature, the setpoint, and the duty cycle percentage.
 When in the Run mode, you can navigate the menus while the controller runs in the background.
 To return to the Run mode screen, select the Running menu option, which replaced the Run option.
 To turn off the controller, select the Off menu option (This replaces the Show Temperature option when running).
