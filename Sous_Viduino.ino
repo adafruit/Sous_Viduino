@@ -36,6 +36,9 @@
 #define ONE_WIRE_PWR 3
 #define ONE_WIRE_GND 4
 
+// Notification pins
+#define BUZZER 7
+
 // ************************************************
 // PID Variables and constants
 // ************************************************
@@ -111,6 +114,8 @@ byte degree[8] = // define the degree symbol
 const int logInterval = 10000; // log every 10 seconds
 long lastLogTime = 0;
 
+int buzzerState = LOW;
+
 // ************************************************
 // States for state machine
 // ************************************************
@@ -129,6 +134,8 @@ DallasTemperature sensors(&oneWire);
 
 // arrays to hold device address
 DeviceAddress tempSensor;
+
+
 
 // ************************************************
 // Setup and diSplay initial screen
@@ -500,6 +507,7 @@ void Run()
    while(true)
    {
       setBacklight();  // set backlight based on state
+      setBuzzer(); // Set the alarm based on the state
 
       buttons = ReadButtons();
       if ((buttons & BUTTON_SHIFT) 
@@ -629,6 +637,25 @@ void setBacklight()
    }
 }
 
+// **********************************************************************
+// Set buzzer based on large changes in state - get the user's attention
+// **********************************************************************
+void setBuzzer() {
+		if (tuning) {
+				// Do nothing, in fact set the buzzer low.
+				buzzer(LOW);
+		} else if (abs(Input - Setpoint) > HIGHALARM) {
+				// High alarm - off by more than the HIGHALARM constant. 
+				buzzer(HIGH);
+		} else if (abs(Input - Setpoint) > LOWALARM) {
+				// Low alarm - off by more than LOWALARM constant.
+				buzzer(HIGH);
+		} else {
+				// Do nothing, in fact set the buzzer low.
+				buzzer(LOW);
+		}
+}
+
 // ************************************************
 // Start the Auto-Tuning cycle
 // ************************************************
@@ -676,6 +703,19 @@ uint8_t ReadButtons()
     lastInput = millis();
   }
   return buttons;
+}
+
+// ************************************************
+// Set the buzzer to its state in the call
+// ************************************************
+void buzzer(int state) {
+		if (state == HIGH) {
+				digitalWrite(BUZZER, HIGH);
+				buzzerState = HIGH;
+		} else if (state == LOW) {
+				digitalWrite(BUZZER, LOW);
+				buzzerState = LOW;
+		}
 }
 
 // ************************************************
