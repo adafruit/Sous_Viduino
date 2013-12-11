@@ -114,6 +114,11 @@ byte degree[8] = // define the degree symbol
 const int logInterval = 10000; // log every 10 seconds
 long lastLogTime = 0;
 
+
+// Define the high alarm and the low alarm thresholds.
+#define HIGHALARM 10.0
+#define LOWALARM 0.2
+
 int buzzerState = LOW;
 
 // ************************************************
