@@ -116,7 +116,7 @@ long lastLogTime = 0;
 
 
 // Define the high alarm and the low alarm thresholds.
-#define HIGHALARM 10.0
+#define HIGHALARM 1.0
 #define LOWALARM 0.2
 
 int buzzerState = LOW;
@@ -646,19 +646,19 @@ void setBacklight()
 // Set buzzer based on large changes in state - get the user's attention
 // **********************************************************************
 void setBuzzer() {
-		if (tuning) {
-				// Do nothing, in fact set the buzzer low.
-				buzzer(LOW);
-		} else if (abs(Input - Setpoint) > HIGHALARM) {
-				// High alarm - off by more than the HIGHALARM constant. 
-				buzzer(HIGH);
-		} else if (abs(Input - Setpoint) > LOWALARM) {
-				// Low alarm - off by more than LOWALARM constant.
-				buzzer(HIGH);
-		} else {
-				// Do nothing, in fact set the buzzer low.
-				buzzer(LOW);
-		}
+	if (tuning) {
+		// Do nothing, in fact set the buzzer low.
+		buzzer(LOW);
+	} else if (abs(Input - Setpoint) > HIGHALARM) {
+		// High alarm - off by more than the HIGHALARM constant. 
+		buzzer(HIGH);
+	} else if (abs(Input - Setpoint) > LOWALARM) {
+		// Low alarm - off by more than LOWALARM constant.
+		buzzer(HIGH);
+	} else {
+		// Do nothing, in fact set the buzzer low.
+		buzzer(LOW);
+	}
 }
 
 // ************************************************
@@ -714,13 +714,13 @@ uint8_t ReadButtons()
 // Set the buzzer to its state in the call
 // ************************************************
 void buzzer(int state) {
-		if (state == HIGH) {
-				digitalWrite(BUZZER, HIGH);
-				buzzerState = HIGH;
-		} else if (state == LOW) {
-				digitalWrite(BUZZER, LOW);
-				buzzerState = LOW;
-		}
+	if (state == HIGH) {
+		digitalWrite(BUZZER, HIGH);
+		buzzerState = HIGH;
+	} else if (state == LOW) {
+		digitalWrite(BUZZER, LOW);
+		buzzerState = LOW;
+	}
 }
 
 // ************************************************
