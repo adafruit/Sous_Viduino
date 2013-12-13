@@ -116,8 +116,8 @@ long lastLogTime = 0;
 
 
 // Define the high alarm and the low alarm thresholds.
-#define HIGHALARM 1.0
-#define LOWALARM 0.2
+#define HIGHALARM 10 // If it's 10 degrees over where it should be
+#define LOWALARM -25 // If it's 25 degrees under where it should be
 
 int buzzerState = LOW;
 
@@ -649,10 +649,10 @@ void setBuzzer() {
 	if (tuning) {
 		// Do nothing, in fact set the buzzer low.
 		buzzer(LOW);
-	} else if (abs(Input - Setpoint) > HIGHALARM) {
+	} else if ((Input - Setpoint) > HIGHALARM) {
 		// High alarm - off by more than the HIGHALARM constant. 
 		buzzer(HIGH);
-	} else if (abs(Input - Setpoint) > LOWALARM) {
+	} else if ((Input - Setpoint) < LOWALARM) {
 		// Low alarm - off by more than LOWALARM constant.
 		buzzer(HIGH);
 	} else {
