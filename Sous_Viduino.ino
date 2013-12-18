@@ -37,7 +37,7 @@
 #define ONE_WIRE_GND 4
 
 // Notification pins
-#define BUZZER 7
+#define BUZZER 9
 
 // ************************************************
 // PID Variables and constants
