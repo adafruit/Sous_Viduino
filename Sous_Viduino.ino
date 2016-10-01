@@ -13,7 +13,6 @@
 
 // Libraries for the Adafruit RGB/LCD Shield
 #include <Wire.h>
-#include <Adafruit_MCP23017.h>
 #include <Adafruit_RGBLCDShield.h>
 
 // Libraries for the DS18B20 Temperature Sensor
