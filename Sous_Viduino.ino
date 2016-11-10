@@ -546,6 +546,7 @@ void Run()
       // periodically log to serial port in csv format
       if (millis() - lastLogTime > logInterval)  
       {
+        lastLogTime = millis();
         Serial.print(Input);
         Serial.print(",");
         Serial.println(Output);
