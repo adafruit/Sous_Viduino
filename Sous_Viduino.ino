@@ -272,7 +272,7 @@ void Off()
 // ************************************************
 void Tune_Sp()
 {
-   lcd.setBacklight(TEAL);
+   lcd.setBacklight(VIOLET);
    lcd.print(F("Set Temperature:"));
    uint8_t buttons = 0;
    while(true)
@@ -326,7 +326,7 @@ void Tune_Sp()
 // ************************************************
 void TuneP()
 {
-   lcd.setBacklight(TEAL);
+   lcd.setBacklight(VIOLET);
    lcd.print(F("Set Kp"));
 
    uint8_t buttons = 0;
@@ -380,7 +380,7 @@ void TuneP()
 // ************************************************
 void TuneI()
 {
-   lcd.setBacklight(TEAL);
+   lcd.setBacklight(VIOLET);
    lcd.print(F("Set Ki"));
 
    uint8_t buttons = 0;
@@ -434,7 +434,7 @@ void TuneI()
 // ************************************************
 void TuneD()
 {
-   lcd.setBacklight(TEAL);
+   lcd.setBacklight(VIOLET);
    lcd.print(F("Set Kd"));
 
    uint8_t buttons = 0;
