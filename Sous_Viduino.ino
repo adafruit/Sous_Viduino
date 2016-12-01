@@ -243,19 +243,26 @@ void loop()
 void Off()
 {
    myPID.SetMode(MANUAL);
-   lcd.setBacklight(0);
+   lcd.setBacklight(VIOLET);
+   // Now we read even in OFF mode
+   sensors.requestTemperatures(); // Start an asynchronous temperature reading
    digitalWrite(RelayPin, LOW);  // make sure it is off
-   lcd.print(F("    Adafruit"));
+   lcd.print(F("Adafruit - TempC"));
    lcd.setCursor(0, 1);
-   lcd.print(F("   Sous Vide!"));
+   lcd.print(F("Sous Vide-"));
    uint8_t buttons = 0;
    
    while(!(buttons & (BUTTON_RIGHT)))
    {
       buttons = ReadButtons();
+      DoControl();
+
+      lcd.setCursor(10, 1);
+      lcd.print(Input);
+      lcd.write(1);
+      lcd.print(F("C : "));
+      delay(200);
    }
-   // Prepare to transition to the RUN state
-   sensors.requestTemperatures(); // Start an asynchronous temperature reading
 
    //turn the PID on
    myPID.SetMode(AUTOMATIC);
