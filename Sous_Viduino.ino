@@ -220,7 +220,6 @@ void loop()
       Off();
       break;
    case MAN:
-
       Manual();
       break;
    case SETP:
@@ -253,12 +252,10 @@ void Off()
    lcd.setCursor(0, 1);
    lcd.print(F("   Sous Vide!"));
    uint8_t buttons = 0;
-   
    while(!(buttons & (BUTTON_RIGHT)))
    {
       buttons = ReadButtons();
    }
-
    opState = MAN; // start control
    
 }
@@ -595,10 +592,8 @@ void Run()
       {
         lastLogTime = millis();
         Serial.println(Input);
-        
-        //Disable Logging of 
-        //Serial.print(",");
-        //Serial.println(Output);
+        Serial.print(",");
+        Serial.println(Output);
       }
 
       delay(100);
