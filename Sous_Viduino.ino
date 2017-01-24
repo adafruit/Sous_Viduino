@@ -113,7 +113,7 @@ long lastLogTime = 0;
 // ************************************************
 // States for state machine
 // ************************************************
-enum operatingState { OFF = 0, SETP, RUN, TUNE_P, TUNE_I, TUNE_D, AUTO};
+enum operatingState { OFF = 0, MAN, SETP, RUN, TUNE_P, TUNE_I, TUNE_D, AUTO};
 operatingState opState = OFF;
 
 // ************************************************
@@ -219,6 +219,10 @@ void loop()
    case OFF:
       Off();
       break;
+   case MAN:
+
+      Manual();
+      break;
    case SETP:
       Tune_Sp();
       break;
@@ -238,7 +242,7 @@ void loop()
 }
 
 // ************************************************
-// Initial State - press RIGHT to enter setpoint
+// Initial State - press RIGHT to enter monitor mode
 // ************************************************
 void Off()
 {
@@ -254,12 +258,54 @@ void Off()
    {
       buttons = ReadButtons();
    }
+
+   opState = MAN; // start control
+   
+}
+
+// ************************************************
+// Monitor mode - press RIGHT to enter setpoint
+// ************************************************
+void Manual()
+{
+   myPID.SetMode(MANUAL);
+   lcd.setBacklight(WHITE);
+   sensors.requestTemperatures(); 
+   digitalWrite(RelayPin, LOW);  // make sure it is off
+   lcd.print(F("  Manual Mode"));
+   lcd.setCursor(0, 1);
+   lcd.print(F(" Temp :"));
+   uint8_t buttons = 0;
+   
+   while(!(buttons & (BUTTON_RIGHT)))
+   {
+    buttons = ReadButtons();
+    if (buttons & BUTTON_LEFT)
+    {
+        opState = OFF;
+        return;
+    }
+    DoControl();
+
+    lcd.setCursor(8, 1);
+    lcd.print(Input);
+    lcd.write(1);
+    lcd.print("C");
+    if (millis() - lastLogTime > logInterval)  
+      {
+        lastLogTime = millis();
+        Serial.println(Input);
+      }
+    delay(200);
+   }
    // Prepare to transition to the RUN state
    sensors.requestTemperatures(); // Start an asynchronous temperature reading
 
    //turn the PID on
+   
    myPID.SetMode(AUTOMATIC);
    windowStartTime = millis();
+   
    opState = RUN; // start control
 }
 
@@ -517,6 +563,7 @@ void Run()
         opState = OFF;
         return;
       }
+
       
       DoControl();
       
@@ -547,9 +594,11 @@ void Run()
       if (millis() - lastLogTime > logInterval)  
       {
         lastLogTime = millis();
-        Serial.print(Input);
-        Serial.print(",");
-        Serial.println(Output);
+        Serial.println(Input);
+        
+        //Disable Logging of 
+        //Serial.print(",");
+        //Serial.println(Output);
       }
 
       delay(100);
